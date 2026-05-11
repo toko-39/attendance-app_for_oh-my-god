@@ -1,14 +1,14 @@
 const LINE_API_BASE = 'https://api.line.me/v2/bot'
 
-const getHeaders = () => ({
+const getHeaders = (accessToken: string) => ({
   'Content-Type': 'application/json',
-  'Authorization': `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`
+  'Authorization': `Bearer ${accessToken}`
 })
 
-export const replyMessage = async (replyToken: string, messages: unknown[]) => {
+export const replyMessage = async (accessToken: string, replyToken: string, messages: unknown[]) => {
   const res = await fetch(`${LINE_API_BASE}/message/reply`, {
     method: 'POST',
-    headers: getHeaders(),
+    headers: getHeaders(accessToken),
     body: JSON.stringify({ replyToken, messages })
   })
   if (!res.ok) {
@@ -16,10 +16,10 @@ export const replyMessage = async (replyToken: string, messages: unknown[]) => {
   }
 }
 
-export const pushMessage = async (to: string, messages: unknown[]) => {
+export const pushMessage = async (accessToken: string, to: string, messages: unknown[]) => {
   const res = await fetch(`${LINE_API_BASE}/message/push`, {
     method: 'POST',
-    headers: getHeaders(),
+    headers: getHeaders(accessToken),
     body: JSON.stringify({ to, messages })
   })
   if (!res.ok) {
