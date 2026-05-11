@@ -32,7 +32,8 @@ export default defineNuxtConfig({
       firebaseStorageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       firebaseMessagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
       firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
-      lineLoginChannelId: process.env.NUXT_PUBLIC_LINE_LOGIN_CHANNEL_ID
+      lineLoginChannelId: process.env.NUXT_PUBLIC_LINE_LOGIN_CHANNEL_ID,
+      baseUrl: process.env.NUXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
     }
   },
 

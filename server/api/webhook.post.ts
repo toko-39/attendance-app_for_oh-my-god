@@ -64,8 +64,9 @@ export default defineEventHandler(async (event) => {
 
   const payload = JSON.parse(body) as { events: LineEvent[] }
   const db = useAdminFirestore()
+  const baseUrl = config.public.baseUrl
 
-  await Promise.all(payload.events.map(e => handleEvent(e, db, config.lineChannelAccessToken)))
+  await Promise.all(payload.events.map(e => handleEvent(e, db, config.lineChannelAccessToken, baseUrl)))
 
   return { ok: true }
 })
@@ -73,14 +74,16 @@ export default defineEventHandler(async (event) => {
 async function handleEvent(
   event: LineEvent,
   db: FirebaseFirestore.Firestore,
-  accessToken: string
+  accessToken: string,
+  baseUrl: string
 ) {
   if (event.type === 'follow') {
     const e = event as LineFollowEvent
+    const registerUrl = `${baseUrl}/api/register/start`
     await replyMessage(accessToken, e.replyToken, [
       {
         type: 'text',
-        text: '勤怠管理システムへようこそ！\nまず、下記のリンクからアカウント登録をお願いします。'
+        text: `勤怠管理システムへようこそ！\n\n以下のリンクからアカウント登録をしてください👇\n${registerUrl}`
       }
     ])
     return
@@ -94,7 +97,7 @@ async function handleEvent(
 
     // 「今日の状況」確認
     if (text === '状況' || text === '今日の状況' || text === '確認') {
-      await handleStatusCheck(db, e.source.userId, e.replyToken, accessToken)
+      await handleStatusCheck(db, e.source.userId, e.replyToken, accessToken, baseUrl)
       return
     }
 
@@ -107,7 +110,7 @@ async function handleEvent(
       return
     }
 
-    await handleClock(db, e.source.userId, clockType, e.replyToken, accessToken)
+    await handleClock(db, e.source.userId, clockType, e.replyToken, accessToken, baseUrl)
     return
   }
 
@@ -115,7 +118,7 @@ async function handleEvent(
     const e = event as LinePostbackEvent
     const clockType = POSTBACK_TO_CLOCK[e.postback.data]
     if (!clockType) return
-    await handleClock(db, e.source.userId, clockType, e.replyToken, accessToken)
+    await handleClock(db, e.source.userId, clockType, e.replyToken, accessToken, baseUrl)
   }
 }
 
@@ -124,14 +127,15 @@ async function handleClock(
   lineUserId: string,
   clockType: ClockType,
   replyToken: string,
-  accessToken: string
+  accessToken: string,
+  baseUrl: string
 ) {
-  // lineUserId → userId の解決
   const userId = await resolveUserId(db, lineUserId)
   if (!userId) {
+    const registerUrl = `${baseUrl}/api/register/start`
     await replyMessage(accessToken, replyToken, [{
       type: 'text',
-      text: 'アカウント未登録です。管理者から登録リンクを受け取ってください。'
+      text: `アカウント未登録です。\n以下のリンクから登録してください👇\n${registerUrl}`
     }])
     return
   }
@@ -144,13 +148,15 @@ async function handleStatusCheck(
   db: FirebaseFirestore.Firestore,
   lineUserId: string,
   replyToken: string,
-  accessToken: string
+  accessToken: string,
+  baseUrl: string
 ) {
   const userId = await resolveUserId(db, lineUserId)
   if (!userId) {
+    const registerUrl = `${baseUrl}/api/register/start`
     await replyMessage(accessToken, replyToken, [{
       type: 'text',
-      text: 'アカウント未登録です。管理者から登録リンクを受け取ってください。'
+      text: `アカウント未登録です。\n以下のリンクから登録してください👇\n${registerUrl}`
     }])
     return
   }
