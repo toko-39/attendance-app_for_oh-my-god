@@ -10,10 +10,12 @@
       "node_modules",
       ".git",
       "firebase-debug.log",
-      "firebase-debug.*.log"
+      "firebase-debug.*.log",
+      "lib"
     ]
   },
   "hosting": {
+    "site": "attendance-app-cf04e",
     "public": ".output/public",
     "ignore": [
       "firebase.json",
@@ -23,7 +25,10 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "run": {
+          "serviceId": "attendance-app",
+          "region": "asia-northeast1"
+        }
       }
     ]
   }

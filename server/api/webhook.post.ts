@@ -140,8 +140,23 @@ async function handleClock(
     return
   }
 
-  const { ok, message } = await applyClockAction(db, userId, clockType)
+  const { ok, message, overtimeMinutes } = await applyClockAction(db, userId, clockType)
   await replyMessage(accessToken, replyToken, [{ type: 'text', text: message }])
+
+  // 残業申告通知
+  if (ok && overtimeMinutes && overtimeMinutes > 0) {
+    const adminId = useRuntimeConfig().lineAdminUserId
+    if (adminId) {
+      const userSnap = await db.collection('users').doc(userId).get()
+      const name = userSnap.data()?.name ?? userId
+      const oh = Math.floor(overtimeMinutes / 60)
+      const om = overtimeMinutes % 60
+      await pushMessage(accessToken, adminId, [{
+        type: 'text',
+        text: `⚠️ 残業申告\n${name} が退勤しました。\n残業時間: ${oh}時間${om}分`
+      }]).catch(() => {/* Push失敗は無視 */})
+    }
+  }
 }
 
 async function handleStatusCheck(

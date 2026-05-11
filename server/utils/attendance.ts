@@ -28,7 +28,7 @@ export const applyClockAction = async (
   db: FirebaseFirestore.Firestore,
   userId: string,
   clockType: ClockType
-): Promise<{ ok: boolean, message: string }> => {
+): Promise<{ ok: boolean, message: string, overtimeMinutes?: number }> => {
   const date = getTodayJST()
   const colRef = db.collection('attendance_records')
 
@@ -78,7 +78,8 @@ export const applyClockAction = async (
     const timeStr = formatTime(now)
     const h = Math.floor(workMin / 60)
     const m = workMin % 60
-    return { ok: true, message: `退勤しました！ ${timeStr}\n実働時間: ${h}時間${m}分` }
+    const overtimeMinutes = workMin > 480 ? workMin - 480 : 0
+    return { ok: true, message: `退勤しました！ ${timeStr}\n実働時間: ${h}時間${m}分`, overtimeMinutes }
   }
 
   if (clockType === 'break_start') {

@@ -2,7 +2,7 @@
 
 ## #1 Phase 1: Firebase環境構築・Nuxt3プロジェクト初期セットアップ
 
-**ステータス**: pending
+**ステータス**: completed
 
 ### 概要
 プロジェクトの土台を構築する。
@@ -28,7 +28,7 @@
 
 ## #2 Phase 2: LINE Webhook受信・基本打刻機能（出勤・退勤）
 
-**ステータス**: pending
+**ステータス**: completed
 
 ### 概要
 LINEからの出勤・退勤打刻の基本フローを実装する。
@@ -54,7 +54,7 @@ LINEからの出勤・退勤打刻の基本フローを実装する。
 
 ## #3 Phase 3: リッチメニュー・休憩記録・打刻確認返信
 
-**ステータス**: pending
+**ステータス**: completed
 
 ### 概要
 打刻フローを完成させ、LINEの操作性を向上させる。
@@ -77,7 +77,7 @@ LINEからの出勤・退勤打刻の基本フローを実装する。
 
 ## #4 Phase 4: 管理者Webダッシュボード（Nuxt3 + Nuxt UI）
 
-**ステータス**: pending
+**ステータス**: completed
 
 ### 概要
 管理者向けWebダッシュボードをNuxt3 + Nuxt UIで実装する。
@@ -105,7 +105,7 @@ LINEからの出勤・退勤打刻の基本フローを実装する。
 
 ## #5 Phase 5: Cloud Schedulerアラート・月次集計・デプロイ
 
-**ステータス**: pending
+**ステータス**: completed
 
 ### 概要
 Firebase Cloud Functions + Cloud Schedulerによる自動アラートと本番デプロイを行う。
