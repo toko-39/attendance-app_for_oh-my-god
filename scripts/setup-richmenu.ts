@@ -25,7 +25,7 @@ async function convertSvgToPng(): Promise<Buffer> {
   const svgPath = resolve('public/richmenu.svg')
   const svgBuffer = readFileSync(svgPath)
   const png = await sharp(svgBuffer)
-    .resize(2500, 1686)
+    .resize(2500, 843)
     .png()
     .toBuffer()
   writeFileSync('public/richmenu.png', png)
@@ -37,26 +37,14 @@ async function convertSvgToPng(): Promise<Buffer> {
 async function createRichMenu(): Promise<string> {
   console.log('リッチメニュー作成中...')
   const richMenu = {
-    size: { width: 2500, height: 1686 },
+    size: { width: 2500, height: 843 },
     selected: true,
-    name: '打刻メニュー',
-    chatBarText: '打刻する',
+    name: '操作ガイド',
+    chatBarText: '操作ガイド',
     areas: [
       {
-        bounds: { x: 0, y: 0, width: 1250, height: 843 },
-        action: { type: 'postback', label: '出勤', data: 'action=clock_in', displayText: '出勤' }
-      },
-      {
-        bounds: { x: 1250, y: 0, width: 1250, height: 843 },
-        action: { type: 'postback', label: '退勤', data: 'action=clock_out', displayText: '退勤' }
-      },
-      {
-        bounds: { x: 0, y: 843, width: 1250, height: 843 },
-        action: { type: 'postback', label: '休憩開始', data: 'action=break_start', displayText: '休憩開始' }
-      },
-      {
-        bounds: { x: 1250, y: 843, width: 1250, height: 843 },
-        action: { type: 'postback', label: '休憩終了', data: 'action=break_end', displayText: '休憩終了' }
+        bounds: { x: 0, y: 0, width: 2500, height: 843 },
+        action: { type: 'postback', label: '操作ガイド', data: 'action=guide', displayText: '操作ガイドを表示' }
       }
     ]
   }

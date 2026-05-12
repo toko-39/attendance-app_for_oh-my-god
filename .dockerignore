@@ -1,9 +1,0 @@
-node_modules
-.nuxt
-.output
-.git
-functions/node_modules
-functions/lib
-*.md
-.env
-service-account.json

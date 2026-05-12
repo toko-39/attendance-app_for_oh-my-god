@@ -19,16 +19,15 @@ service cloud.firestore {
     // users コレクション
     match /users/{uid} {
       allow read: if isSelf(uid) || isAdmin();
-      allow write: if isSelf(uid);
+      allow create, update: if isSelf(uid);  // delete は禁止
       allow update: if isAdmin();
     }
 
     // attendance_records コレクション
+    // 書き込みはサーバー（Admin SDK）またはadminのみ。クライアントから直接改ざん不可
     match /attendance_records/{recordId} {
       allow read: if isAdmin() || (isAuth() && resource.data.userId == request.auth.uid);
-      allow create: if isAuth() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin() ||
-        (isAuth() && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
     }
 
     // alert_logs コレクション

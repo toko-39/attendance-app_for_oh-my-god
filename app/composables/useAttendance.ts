@@ -33,6 +33,9 @@ export const useAttendance = (date: string) => {
       } as AttendanceRecord
     })
     loading.value = false
+  }, (error) => {
+    console.error('[useAttendance] Firestore error:', error)
+    loading.value = false
   })
 
   onUnmounted(unsubscribe)

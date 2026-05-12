@@ -45,28 +45,42 @@ const TEXT_TO_CLOCK: Record<string, ClockType> = {
 }
 
 export default defineEventHandler(async (event) => {
+  // LINE は常に 200 を要求するため、エラーは throw せず内部処理する
   const config = useRuntimeConfig()
   const channelSecret = config.lineChannelSecret
   const body = await readRawBody(event)
   const signature = getHeader(event, 'x-line-signature')
 
-  // 署名検証
   if (!body || !signature) {
-    throw createError({ statusCode: 400, message: 'Bad request' })
+    console.warn('[webhook] missing body or signature')
+    return { ok: false }
   }
+
+  // 署名検証
   const hash = crypto
     .createHmac('SHA256', channelSecret)
     .update(body)
     .digest('base64')
   if (hash !== signature) {
-    throw createError({ statusCode: 401, message: 'Invalid signature' })
+    console.warn('[webhook] invalid signature')
+    return { ok: false }
   }
 
   const payload = JSON.parse(body) as { events: LineEvent[] }
-  const db = useAdminFirestore()
-  const baseUrl = config.public.baseUrl
 
-  await Promise.all(payload.events.map(e => handleEvent(e, db, config.lineChannelAccessToken, baseUrl)))
+  // イベントが空（Webhook URL 疎通確認）はそのまま 200 返却
+  if (payload.events.length === 0) {
+    return { ok: true }
+  }
+
+  try {
+    const db = useAdminFirestore()
+    const baseUrl = config.public.baseUrl
+    await Promise.all(payload.events.map(e => handleEvent(e, db, config.lineChannelAccessToken, baseUrl)))
+  }
+  catch (err) {
+    console.error('[webhook] event handling error:', err)
+  }
 
   return { ok: true }
 })
@@ -116,6 +130,13 @@ async function handleEvent(
 
   if (event.type === 'postback') {
     const e = event as LinePostbackEvent
+    if (e.postback.data === 'action=guide') {
+      await replyMessage(accessToken, e.replyToken, [{
+        type: 'text',
+        text: '【勤怠管理システム 操作ガイド】\nこのアカウントでLINEから勤怠打刻ができます。\n以下のキーワードを送信してください👇\n\n 出勤　→「出勤」または「しゅっきん」\n 退勤　→「退勤」または「たいきん」\n 休憩　→「休憩」または「休憩開始」\n 休憩終了　→「休憩終了」または「戻りました」\n 状況確認　→「状況」または「確認」\n\n打刻後は確認メッセージが届きます。\n不明な点は管理者までご連絡ください。'
+      }])
+      return
+    }
     const clockType = POSTBACK_TO_CLOCK[e.postback.data]
     if (!clockType) return
     await handleClock(db, e.source.userId, clockType, e.replyToken, accessToken, baseUrl)

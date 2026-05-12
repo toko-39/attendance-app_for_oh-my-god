@@ -11,13 +11,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  routeRules: {
-    '/': { ssr: true },
-    '/login': { prerender: true },
-    '/employees/**': { ssr: true },
-    '/reports/**': { ssr: true }
-  },
-
   runtimeConfig: {
     // サーバーサイドのみ
     lineChannelSecret: process.env.LINE_CHANNEL_SECRET,
@@ -34,6 +27,19 @@ export default defineNuxtConfig({
       firebaseAppId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
       lineLoginChannelId: process.env.NUXT_PUBLIC_LINE_LOGIN_CHANNEL_ID,
       baseUrl: process.env.NUXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
+    }
+  },
+
+  routeRules: {
+    '/': { ssr: true },
+    '/login': { prerender: true },
+    '/employees/**': { ssr: true },
+    '/reports/**': { ssr: true }
+  },
+
+  vite: {
+    server: {
+      allowedHosts: true
     }
   },
 

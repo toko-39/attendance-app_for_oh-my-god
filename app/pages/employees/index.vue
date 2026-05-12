@@ -97,6 +97,12 @@ const updateRole = async (uid: string, role: 'admin' | 'member') => {
         >
           月次レポート
         </NuxtLink>
+        <NuxtLink
+          to="/audit"
+          class="py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700"
+        >
+          修正履歴
+        </NuxtLink>
       </div>
     </nav>
 

@@ -1,33 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="1686" viewBox="0 0 2500 1686">
+<svg xmlns="http://www.w3.org/2000/svg" width="2500" height="843" viewBox="0 0 2500 843">
   <!-- 背景 -->
-  <rect width="2500" height="1686" fill="#f8f9fa"/>
+  <rect width="2500" height="843" fill="#6b7280"/>
 
-  <!-- 区切り線（縦） -->
-  <line x1="1250" y1="0" x2="1250" y2="1686" stroke="#dee2e6" stroke-width="4"/>
-  <!-- 区切り線（横） -->
-  <line x1="0" y1="843" x2="2500" y2="843" stroke="#dee2e6" stroke-width="4"/>
-
-  <!-- 出勤（左上） -->
-  <rect x="0" y="0" width="1250" height="843" fill="#22c55e"/>
-  <text x="625" y="380" font-family="sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">🕐</text>
-  <text x="625" y="560" font-family="sans-serif" font-size="140" font-weight="bold" fill="white" text-anchor="middle">出勤</text>
-  <text x="625" y="700" font-family="sans-serif" font-size="72" fill="rgba(255,255,255,0.8)" text-anchor="middle">タップして打刻</text>
-
-  <!-- 退勤（右上） -->
-  <rect x="1250" y="0" width="1250" height="843" fill="#ef4444"/>
-  <text x="1875" y="380" font-family="sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">🏠</text>
-  <text x="1875" y="560" font-family="sans-serif" font-size="140" font-weight="bold" fill="white" text-anchor="middle">退勤</text>
-  <text x="1875" y="700" font-family="sans-serif" font-size="72" fill="rgba(255,255,255,0.8)" text-anchor="middle">タップして打刻</text>
-
-  <!-- 休憩開始（左下） -->
-  <rect x="0" y="843" width="1250" height="843" fill="#f59e0b"/>
-  <text x="625" y="1220" font-family="sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">☕</text>
-  <text x="625" y="1400" font-family="sans-serif" font-size="130" font-weight="bold" fill="white" text-anchor="middle">休憩開始</text>
-  <text x="625" y="1540" font-family="sans-serif" font-size="72" fill="rgba(255,255,255,0.8)" text-anchor="middle">タップして打刻</text>
-
-  <!-- 休憩終了（右下） -->
-  <rect x="1250" y="843" width="1250" height="843" fill="#3b82f6"/>
-  <text x="1875" y="1220" font-family="sans-serif" font-size="120" font-weight="bold" fill="white" text-anchor="middle">▶️</text>
-  <text x="1875" y="1400" font-family="sans-serif" font-size="130" font-weight="bold" fill="white" text-anchor="middle">休憩終了</text>
-  <text x="1875" y="1540" font-family="sans-serif" font-size="72" fill="rgba(255,255,255,0.8)" text-anchor="middle">タップして打刻</text>
+  <!-- 操作ガイド（全体） -->
+  <text x="1250" y="340" font-family="sans-serif" font-size="140" font-weight="bold" fill="white" text-anchor="middle">📖</text>
+  <text x="1250" y="530" font-family="sans-serif" font-size="160" font-weight="bold" fill="white" text-anchor="middle">操作ガイド</text>
+  <text x="1250" y="680" font-family="sans-serif" font-size="80" fill="rgba(255,255,255,0.8)" text-anchor="middle">使い方を確認</text>
 </svg>
