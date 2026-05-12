@@ -3,6 +3,7 @@ import type { User } from '@@/types/user'
 
 definePageMeta({ middleware: 'auth' })
 
+const currentMonth = new Date().toISOString().slice(0, 7)
 const auth = useFirebaseAuth()
 const getToken = async () => await auth.currentUser?.getIdToken() ?? ''
 
@@ -91,7 +92,7 @@ const updateRole = async (uid: string, role: 'admin' | 'member') => {
           従業員管理
         </NuxtLink>
         <NuxtLink
-          to="/reports"
+          :to="`/reports/${currentMonth}`"
           class="py-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700"
         >
           月次レポート
@@ -186,6 +187,7 @@ const updateRole = async (uid: string, role: 'admin' | 'member') => {
     <UModal
       :open="showAddModal"
       title="従業員を追加"
+      :close="false"
       @close="showAddModal = false"
     >
       <template #body>
